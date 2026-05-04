@@ -6,7 +6,7 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:59:35 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/04 17:26:01 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/04 23:21:31 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 char	*get_next_line(int fd);
 
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *stash, char *buffer);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
