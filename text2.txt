@@ -1,0 +1,4 @@
+la este es el archivo 2
+segunda linea del archivo 2
+tercera linea del archivo numero 2 un poco mas larga para que no sea tan corto...
+ultima linea del archivo 2 para acabar el archivo
