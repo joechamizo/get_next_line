@@ -6,7 +6,7 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 15:49:23 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/05 17:13:45 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/06 19:23:31 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,12 @@ size_t	ft_strlen(const char *s)
 {
 	const char	*p;
 
+	p = s;
 	if (!s)
 		return (0);
-	p = s;
 	while (*p)
 		p++;
 	return (p - s);
-}
-
-char	*ft_strjoin(char *stash, char *buffer)
-{
-	char	*new_str;
-	size_t	len_s;
-	size_t	len_b;
-
-	if (!stash)
-	{
-		stash = malloc(1);
-		stash[0] = '\0';
-	}
-	if (!stash || !buffer)
-		return (free(stash), NULL);
-	len_s = ft_strlen(stash);
-	len_b = ft_strlen(buffer);
-	new_str = malloc(len_s + len_b + 1);
-	if (!new_str)
-		return (free(stash), NULL);
-	// Usar memoria directa es más rápido que loops de caracteres
-	ft_memcpy(new_str, stash, len_s);
-	ft_memcpy(new_str + len_s, buffer, len_b + 1);
-	free(stash);
-	return (new_str);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -76,4 +51,21 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	while (n--)
 		*d++ = *s++;
 	return (dst);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*str;
+	size_t	l1;
+	size_t	l2;
+
+	l1 = ft_strlen(s1);
+	l2 = ft_strlen(s2);
+	str = malloc(l1 + l2 + 1);
+	if (!str)
+		return (free(s1), NULL);
+	if (s1)
+		ft_memcpy(str, s1, l1);
+	ft_memcpy(str + l1, s2, l2 + 1);
+	return (free(s1), str);
 }

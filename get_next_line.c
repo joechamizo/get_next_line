@@ -6,114 +6,93 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 15:38:25 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/05 17:06:30 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/06 19:40:11 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*fill_stash(int fd, char *stash)
-{
-	char	*buffer;
-	int		bytes_read;
-
-	// Si ya tenemos un \n en el stash sobrante de la llamada anterior, salimos
-	if (stash && ft_strchr(stash, '\n'))
-		return (stash);
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (free(stash), NULL);
-	bytes_read = 1;
-	while (bytes_read > 0)
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
-			return (free(buffer), free(stash), NULL);
-		if (bytes_read == 0)
-			break ;
-		buffer[bytes_read] = '\0';
-		stash = ft_strjoin(stash, buffer);
-		if (!stash || ft_strchr(buffer, '\n'))
-			break ;
-	}
-	free(buffer);
-	return (stash);
-}
-
-// 1. fill_stash: BUSCA SOLO EN EL BUFFER (Ya lo tienes, mantenlo así)
-// 2. extract_line: Mide y extrae en un solo paso
-char	*extract_line(char *stash)
+static char	*extract_line(char *stash)
 {
 	char	*line;
-	size_t	i;
+	char	*p;
+	size_t	len;
 
-	i = 0;
-	if (!stash || !stash[i])
+	if (!stash || !*stash)
 		return (NULL);
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	// i + (si hay \n) + 1 para \0
-	line = malloc(i + (stash[i] == '\n') + 1);
+	p = stash;
+	while (*p && *p != '\n')
+		p++;
+	len = p - stash + (*p == '\n');
+	line = malloc(len + 1);
 	if (!line)
 		return (NULL);
-	ft_memcpy(line, stash, i + (stash[i] == '\n'));
-	line[i + (stash[i] == '\n')] = '\0';
+	ft_memcpy(line, stash, len);
+	*(line + len) = '\0';
 	return (line);
 }
 
-// 3. clean_stash: Usa la posición que ya conocemos
-char	*clean_stash(char *stash)
+static char	*clean_stash(char *stash)
 {
-	char	*new_stash;
-	size_t	i;
-	size_t	len;
+	char	*new;
+	char	*p;
 
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	// Si no hay \n o no hay nada después, liberamos y fuera
-	if (!stash[i] || !stash[i + 1])
-	{
-		free(stash);
-		return (NULL);
-	}
-	// Medimos lo que queda DESDE la posición i
-	len = ft_strlen(stash + i + 1);
-	new_stash = malloc(len + 1);
-	if (!new_stash)
+	p = stash;
+	while (*p && *p != '\n')
+		p++;
+	if (!*p || !*(p + 1))
 		return (free(stash), NULL);
-	ft_memcpy(new_stash, stash + i + 1, len + 1);
-	free(stash);
-	return (new_stash);
+	new = ft_strjoin(NULL, p + 1);
+	return (free(stash), new);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+static char	*read_loop(int fd, char *stash, char *buf, char *acc)
 {
-	char	*substr;
-	size_t	s_len;
+	int		bytes;
+	size_t	i;
 
-	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s);
-	// Si el inicio está fuera del string, devolvemos string vacío
-	if (start >= s_len)
+	bytes = 1;
+	i = 0;
+	while (bytes > 0)
 	{
-		substr = malloc(1);
-		if (!substr)
-			return (NULL);
-		substr[0] = '\0';
-		return (substr);
+		bytes = read(fd, buf, BUFFER_SIZE);
+		if (bytes <= 0)
+			break ;
+		ft_memcpy(acc + i, buf, bytes);
+		i += bytes;
+		*(acc + i) = '\0';
+		*(buf + bytes) = '\0';
+		if (i + BUFFER_SIZE >= 8192 || ft_strchr(buf, '\n'))
+		{
+			stash = ft_strjoin(stash, acc);
+			i = 0;
+			*acc = '\0';
+			if (ft_strchr(buf, '\n'))
+				break ;
+		}
 	}
-	// Si lo que pedimos copiar es más de lo que hay, ajustamos len
-	if (len > s_len - start)
-		len = s_len - start;
-	substr = malloc(len + 1);
-	if (!substr)
-		return (NULL);
-	// Usamos memcpy para que la copia sea ultra rápida
-	ft_memcpy(substr, s + start, len);
-	substr[len] = '\0';
-	return (substr);
+	if (i > 0 && bytes != -1)
+		stash = ft_strjoin(stash, acc);
+	return (free(buf), free(acc), (bytes == -1) ? (free(stash), NULL) : stash);
+}
+
+static char	*fill_stash(int fd, char *stash)
+{
+	char	*buf;
+	char	*acc;
+	size_t	asz;
+
+	if (stash && ft_strchr(stash, '\n'))
+		return (stash);
+	asz = 8192;
+	if ((size_t)BUFFER_SIZE > asz)
+		asz = (size_t)BUFFER_SIZE;
+	buf = malloc((size_t)BUFFER_SIZE + 1);
+	acc = malloc(asz + 1);
+	if (!buf || !acc)
+		return (free(buf), free(acc), free(stash), NULL);
+	*acc = '\0';
+	return (read_loop(fd, stash, buf, acc));
 }
 
 char	*get_next_line(int fd)
@@ -127,8 +106,6 @@ char	*get_next_line(int fd)
 	if (!stash[fd])
 		return (NULL);
 	line = extract_line(stash[fd]);
-	// Si extract_line no pudo sacar nada (ej. error de malloc), 
-	// liberamos el stash para evitar leaks.
 	if (!line)
 	{
 		free(stash[fd]);
@@ -138,4 +115,3 @@ char	*get_next_line(int fd)
 	stash[fd] = clean_stash(stash[fd]);
 	return (line);
 }
-
