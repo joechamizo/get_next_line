@@ -6,11 +6,11 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 17:30:20 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/04 23:45:42 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:53:01 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../get_next_line.h"
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -24,7 +24,7 @@ int main(void)
     int     active_2;
 
     fd1 = open("test_big.txt", O_RDONLY);
-    fd2 = open("text2.txt", O_RDONLY);
+    fd2 = open("test_grande.txt", O_RDONLY);
     if (fd1 < 0 || fd2 < 0)
         return (printf("Error al abrir archivos\n"), 1);
 
