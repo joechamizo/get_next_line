@@ -6,7 +6,7 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:59:35 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/07 10:31:42 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:18:38 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
+# endif
+
+# ifndef CUT_CHAR
+#  define CUT_CHAR 'a'
 # endif
 
 /* get_next_line.c */

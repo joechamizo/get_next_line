@@ -6,7 +6,7 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 15:38:25 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/07 10:27:21 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:16:28 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ static char	*extract_line(char *s)
 	i = 0;
 	if (!s || !*s)
 		return (NULL);
-	while (s[i] && s[i] != '\n')
+	while (s[i] && s[i] != CUT_CHAR)
 		i++;
-	if (s[i] == '\n')
+	if (s[i] == CUT_CHAR)
 		i++;
 	line = malloc(i + 1);
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (s[i] && s[i] != '\n')
+	while (s[i] && s[i] != CUT_CHAR)
 	{
 		line[i] = s[i];
 		i++;
 	}
-	if (s[i] == '\n')
-		line[i++] = '\n';
+	if (s[i] == CUT_CHAR)
+		line[i++] = CUT_CHAR;
 	line[i] = '\0';
 	return (line);
 }
@@ -46,7 +46,7 @@ static char	*clean_stash(char *s)
 	size_t	j;
 
 	i = 0;
-	while (s[i] && s[i] != '\n')
+	while (s[i] && s[i] != CUT_CHAR)
 		i++;
 	if (!s[i] || !s[i + 1])
 	{
@@ -84,10 +84,10 @@ static int	read_loop(int fd, char **stash, char *buf, char *acc)
 		ft_memcpy(acc + i, buf, (size_t)b);
 		i += b;
 		acc[i] = '\0';
-		if (ft_strchr(buf, '\n') || i + (size_t)BUFFER_SIZE >= 8000)
+		if (ft_strchr(buf, CUT_CHAR) || i + (size_t)BUFFER_SIZE >= 8000)
 		{
 			*stash = ft_manage_acc(*stash, acc, &i);
-			if (ft_strchr(buf, '\n'))
+			if (ft_strchr(buf, CUT_CHAR))
 				break ;
 		}
 	}
@@ -129,7 +129,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= 1024)
 		return (NULL);
-	if (!st[fd] || !ft_strchr(st[fd], '\n'))
+	if (!st[fd] || !ft_strchr(st[fd], CUT_CHAR))
 		st[fd] = init_and_read(fd, st[fd]);
 	if (!st[fd])
 		return (NULL);
