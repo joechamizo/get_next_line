@@ -6,7 +6,7 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:59:35 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/05 17:02:43 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:31:42 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,18 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# ifndef OPEN_MAX
-#  define OPEN_MAX 1024
-# endif
-
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
+/* get_next_line.c */
 char	*get_next_line(int fd);
 
-char	*ft_strjoin(char *stash, char *buffer);
-char	*ft_strchr(const char *s, int c);
+/* get_next_line_utils.c */
 size_t	ft_strlen(const char *s);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strchr(const char *s, int c);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_manage_acc(char *stash, char *acc, size_t *i);
+
 #endif

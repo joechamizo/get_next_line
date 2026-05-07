@@ -6,7 +6,7 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 15:49:23 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/06 19:23:31 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:29:45 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 size_t	ft_strlen(const char *s)
 {
-	const char	*p;
+	size_t	i;
 
-	p = s;
+	i = 0;
 	if (!s)
 		return (0);
-	while (*p)
-		p++;
-	return (p - s);
+	while (s[i])
+		i++;
+	return (i);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -41,31 +41,48 @@ char	*ft_strchr(const char *s, int c)
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	unsigned char	*d;
-	unsigned char	*s;
+	size_t	i;
 
 	if (!dst && !src)
 		return (NULL);
-	d = (unsigned char *)dst;
-	s = (unsigned char *)src;
-	while (n--)
-		*d++ = *s++;
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+		i++;
+	}
 	return (dst);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*str;
+	char	*res;
 	size_t	l1;
 	size_t	l2;
 
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
-	str = malloc(l1 + l2 + 1);
-	if (!str)
-		return (free(s1), NULL);
+	res = malloc(l1 + l2 + 1);
+	if (!res)
+	{
+		if (s1)
+			free(s1);
+		return (NULL);
+	}
+	ft_memcpy(res, s1, l1);
+	ft_memcpy(res + l1, s2, l2);
+	res[l1 + l2] = '\0';
 	if (s1)
-		ft_memcpy(str, s1, l1);
-	ft_memcpy(str + l1, s2, l2 + 1);
-	return (free(s1), str);
+		free(s1);
+	return (res);
+}
+
+char	*ft_manage_acc(char *stash, char *acc, size_t *i)
+{
+	char	*new_stash;
+
+	new_stash = ft_strjoin(stash, acc);
+	*i = 0;
+	acc[0] = '\0';
+	return (new_stash);
 }

@@ -6,29 +6,28 @@
 /*   By: joaqumar <joaqumar@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:59:35 by joaqumar          #+#    #+#             */
-/*   Updated: 2026/05/06 19:24:18 by joaqumar         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:31:58 by joaqumar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # include <stdlib.h>
 # include <unistd.h>
-
-# ifndef OPEN_MAX
-#  define OPEN_MAX 1024
-# endif
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
+/* get_next_line.c */
 char	*get_next_line(int fd);
 
-char	*ft_strjoin(char *stash, char *buffer);
-char	*ft_strchr(const char *s, int c);
+/* get_next_line_utils.c */
 size_t	ft_strlen(const char *s);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strchr(const char *s, int c);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_manage_acc(char *stash, char *acc, size_t *i);
+
 #endif
