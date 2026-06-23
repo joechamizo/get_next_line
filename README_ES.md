@@ -153,3 +153,13 @@ Todas las sugerencias generadas fueron revisadas, adaptadas, probadas y validada
 - configuraciones de prueba extremas utilizando tamaños de buffer variables desde 1 hasta 10M.
 
 La responsabilidad final del código, las pruebas y la defensa del proyecto sigue siendo del autor.
+
+---
+
+## ⚖️ Descargo de Responsabilidad (Disclaimer)
+
+Este repositorio ha sido creado con fines puramente académicos y como parte de mi proceso de aprendizaje en el plan de estudios de **42**.
+
+* **Uso bajo tu propio riesgo:** No me hago responsable del uso que se le dé al código de este repositorio, ni de las consecuencias derivadas de su copia, modificación o reutilización en tus propias entregas.
+* **Política de copia de 42 (Plagio):** Se recuerda a los estudiantes de 42 que el plagio o la copia directa de código sin comprender su funcionamiento infringe las normas de la escuela y puede ser penalizado de forma severa por los sistemas de evaluación automática o manual (*Moulinette* / Evaluadores).
+* **Propósito:** El código se comparte con el único objetivo de servir como referencia, consulta técnica o inspiración para resolver arquitecturas de Makefiles complejos y automatización de tests interactivos.
