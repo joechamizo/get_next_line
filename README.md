@@ -153,4 +153,12 @@ All generated suggestions were manually reviewed, adapted, tested, and validated
 - `valgrind` (zero memory leaks verified);
 - extreme testing setups using variable buffer sizes from 1 to 10M.
 
-The final responsibility for the code, the tests, and the project defense remains with the author.
+---
+
+## ⚖️ Academic Disclaimer
+
+This repository has been created for purely academic purposes as part of my personal learning journey through the **42 network** curriculum.
+
+* **Use at your own risk:** I do not take any responsibility for how the code in this repository is used, nor for any consequences arising from its duplication, modification, or reuse in your own project submissions.
+* **42 Plagiarism Policy:** 42 students are heavily reminded that plagiarism or direct code copying without fully understanding its inner workings violates the school rules and can be severely penalized by both automated testing systems (*Moulinette*) and human peer-evaluators.
+* **Purpose:** This codebase is shared with the sole purpose of serving as an engineering reference, technical guide, or inspiration for building advanced custom Makefiles and automated interactive test suites.
